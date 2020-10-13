@@ -58,7 +58,7 @@ def parse(opt_path, is_train=True):
 
     # paths
     for key, path in opt['path'].items():
-        if path and key != 'strict_load':
+        if path and 'strict_load' not in key:
             opt['path'][key] = osp.expanduser(path)
     opt['path']['root'] = osp.abspath(
         osp.join(__file__, osp.pardir, osp.pardir, osp.pardir))
@@ -75,7 +75,8 @@ def parse(opt_path, is_train=True):
 
         # change some options for debug mode
         if 'debug' in opt['name']:
-            opt['val']['val_freq'] = 8
+            if 'val' in opt:
+                opt['val']['val_freq'] = 8
             opt['logger']['print_freq'] = 1
             opt['logger']['save_checkpoint_freq'] = 8
     else:  # test

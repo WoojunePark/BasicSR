@@ -1,6 +1,6 @@
 # 代码库的设计和约定
 
-[English](DesignConvention.md) | [简体中文](DesignConvention_CN.md)
+[English](DesignConvention.md) **|** [简体中文](DesignConvention_CN.md)
 
 #### 目录
 
@@ -36,7 +36,7 @@
 # scan all the files under the data folder with '_dataset' in file names
 data_folder = osp.dirname(osp.abspath(__file__))
 dataset_filenames = [
-    osp.splitext(osp.basename(v))[0] for v in mmcv.scandir(data_folder)
+    osp.splitext(osp.basename(v))[0] for v in scandir(data_folder)
     if v.endswith('_dataset.py')
 ]
 # import all the dataset modules

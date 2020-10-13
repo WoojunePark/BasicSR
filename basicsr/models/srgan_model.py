@@ -3,7 +3,7 @@ import torch
 from collections import OrderedDict
 from copy import deepcopy
 
-from basicsr.models import networks as networks
+from basicsr.models.archs import define_network
 from basicsr.models.sr_model import SRModel
 
 loss_module = importlib.import_module('basicsr.models.losses')
@@ -16,15 +16,15 @@ class SRGANModel(SRModel):
         train_opt = self.opt['train']
 
         # define network net_d
-        self.net_d = networks.define_net_d(deepcopy(self.opt['network_d']))
+        self.net_d = define_network(deepcopy(self.opt['network_d']))
         self.net_d = self.model_to_device(self.net_d)
         self.print_network(self.net_d)
 
         # load pretrained models
-        load_path = self.opt['path'].get('pretrain_model_d', None)
+        load_path = self.opt['path'].get('pretrain_network_d', None)
         if load_path is not None:
             self.load_network(self.net_d, load_path,
-                              self.opt['path']['strict_load'])
+                              self.opt['path'].get('strict_load_d', True))
 
         self.net_g.train()
         self.net_d.train()
